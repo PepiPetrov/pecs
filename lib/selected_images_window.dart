@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pecs/pecs_button.dart';
 
 class SelectedImagesWindow extends StatefulWidget {
   final List<Map<String, String>> selectedPecs;
@@ -19,8 +20,8 @@ class SelectedImagesWindow extends StatefulWidget {
 class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final imageWidth = screenWidth / widget.numImagesPerRow;
+    // final screenWidth = MediaQuery.of(context).size.width;
+    // final imageWidth = screenWidth / widget.numImagesPerRow;
 
     return Scaffold(
       appBar: AppBar(
@@ -37,18 +38,19 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
         childAspectRatio: 1.0,
         mainAxisSpacing: 8.0,
         crossAxisSpacing: 8.0,
-        children: widget.selectedPecs
-            .map(
-              (pecs) => CachedNetworkImage(
-                imageUrl: pecs['image']!,
-                width: imageWidth,
-                fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            )
-            .toList(),
+        // children: widget.selectedPecs
+        //     .map(
+              // (pecs) => CachedNetworkImage(
+              //   imageUrl: pecs['image']!,
+              //   width: imageWidth,
+              //   fit: BoxFit.cover,
+              //   placeholder: (context, url) =>
+              //       const CircularProgressIndicator(),
+              //   errorWidget: (context, url, error) => const Icon(Icons.error),
+              // ),
+        //     )
+        //     .toList(),
+        children: [PecsButton(selectedPecs: widget.selectedPecs)],
       ),
     );
   }
