@@ -4,7 +4,10 @@ import 'pecs_list.dart';
 import 'urls.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MediaQuery(
+    data: MediaQueryData(devicePixelRatio: 1),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -27,9 +30,27 @@ class _MyAppState extends State<MyApp> {
   _showSelectedImagesWindow(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => SelectedImagesWindow(selectedPecs: _selectedPecs),
+        builder: (context) => SelectedImagesWindow(
+          selectedPecs: _selectedPecs,
+          numImagesPerRow: getColumns(context),
+        ),
       ),
     );
+  }
+
+  int getColumns(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
+    if (screenSize.width >= 992) {
+      // Desktop or laptop
+      return 7;
+    } else if (screenSize.width >= 768) {
+      // Tablet
+      return 4;
+    } else {
+      // Mobile
+      return 3;
+    }
   }
 
   @override
@@ -46,9 +67,9 @@ class _MyAppState extends State<MyApp> {
             const Padding(padding: EdgeInsets.all(8.0)),
             Expanded(
               child: PecsSelector(
-                pecsImages: pecsImages,
-                onSelectionChanged: _handleSelectionChange,
-              ),
+                  pecsImages: pecsImages,
+                  onSelectionChanged: _handleSelectionChange,
+                  numImagesPerRow: getColumns(context)),
             ),
             Builder(
               builder: (BuildContext context) {

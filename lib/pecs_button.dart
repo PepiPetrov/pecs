@@ -18,11 +18,11 @@ class _GPT3ButtonState extends State<GPT3Button> {
   Future<void> _handleGPT3Request() async {
     List<String> words =
         widget.selectedPecs.map((pec) => pec['word']!).toList();
-    String englishSentence = words.join(' ');
+    String englishSentence = words.join(', ');
     String requestText =
         'Construct a sentence in Bulgarian using the following words from PECS cards. First, construct the sentence in English and then translate it: $englishSentence';
 
-    const conf = OpenAIConfiguration(apiKey: openaiApiKey);
+    const conf = OpenAIConfiguration(apiKey: openAIApiKey);
 
     final client = OpenAIClient(configuration: conf);
 
@@ -31,7 +31,6 @@ class _GPT3ButtonState extends State<GPT3Button> {
             model: 'text-davinci-003',
             prompt: requestText,
             maxTokens: 200,
-            n: 1,
             stop: '\n')
         .data;
 

@@ -20,8 +20,8 @@ class SelectedImagesWindow extends StatefulWidget {
 class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
   @override
   Widget build(BuildContext context) {
-    // final screenWidth = MediaQuery.of(context).size.width;
-    // final imageWidth = screenWidth / widget.numImagesPerRow;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final imageWidth = screenWidth / widget.numImagesPerRow;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,20 +35,14 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
       ),
       body: GridView.count(
         crossAxisCount: widget.numImagesPerRow,
-        // childAspectRatio: 1.0,
-        // mainAxisSpacing: 8.0,
-        // crossAxisSpacing: 8.0,
+        childAspectRatio: 1.0,
+        mainAxisSpacing: 8.0,
+        crossAxisSpacing: 8.0,
         // children: widget.selectedPecs
-        //     .map(
-        // (pecs) => CachedNetworkImage(
-        //   imageUrl: pecs['image']!,
-        //   width: imageWidth,
-        //   fit: BoxFit.cover,
-        //   placeholder: (context, url) =>
-        //       const CircularProgressIndicator(),
-        //   errorWidget: (context, url, error) => const Icon(Icons.error),
-        // ),
-        //     )
+        //     .map((pecs) => Image.asset(
+        //           pecs["image"]!,
+        //           width: imageWidth,
+        //         ))
         //     .toList(),
         children: [GPT3Button(selectedPecs: widget.selectedPecs)],
       ),

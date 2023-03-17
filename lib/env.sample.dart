@@ -1,1 +1,1 @@
-const String openaiApiKey = "<api key>";
+const String openAIApiKey = "<api key>";

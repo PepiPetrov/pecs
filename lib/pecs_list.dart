@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PecsSelector extends StatefulWidget {
@@ -37,7 +36,6 @@ class _PecsSelectorState extends State<PecsSelector> {
     final screenWidth = MediaQuery.of(context).size.width;
     final imageWidth = (screenWidth - (widget.numImagesPerRow - 1) * 8) /
         widget.numImagesPerRow;
-    final imageHeight = imageWidth;
 
     return GridView.builder(
       itemCount: widget.pecsImages.length,
@@ -45,7 +43,7 @@ class _PecsSelectorState extends State<PecsSelector> {
         crossAxisCount: widget.numImagesPerRow,
         mainAxisSpacing: 8.0,
         crossAxisSpacing: 8.0,
-        childAspectRatio: imageWidth / imageHeight,
+        childAspectRatio: 1,
       ),
       itemBuilder: (context, index) {
         return GestureDetector(
@@ -65,16 +63,10 @@ class _PecsSelectorState extends State<PecsSelector> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
-                  child: CachedNetworkImage(
-                    imageUrl: widget.pecsImages[index]["image"]!,
-                    width: imageWidth,
-                    height: imageHeight,
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
+                    child: Image.asset(
+                  widget.pecsImages[index]["image"]!,
+                  width: imageWidth,
+                )),
               ],
             ),
           ),
