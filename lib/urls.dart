@@ -1,5 +1,7 @@
-String getUrl(String id) =>
-    "http://www.mypecs.com/ImageServer/ImageService.svc/GetPecsCardImage/$id";
+// String getUrl(String id) =>
+//     "http://www.mypecs.com/ImageServer/ImageService.svc/GetPecsCardImage/$id";
+
+String getUrl(String id) => "assets/$id.gif";
 
 final List<Map<String, String>> pecsImages = [
   {"image": getUrl("19,1"), "word": "avocado"},

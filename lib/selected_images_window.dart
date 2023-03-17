@@ -35,22 +35,22 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
       ),
       body: GridView.count(
         crossAxisCount: widget.numImagesPerRow,
-        childAspectRatio: 1.0,
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 8.0,
+        // childAspectRatio: 1.0,
+        // mainAxisSpacing: 8.0,
+        // crossAxisSpacing: 8.0,
         // children: widget.selectedPecs
         //     .map(
-              // (pecs) => CachedNetworkImage(
-              //   imageUrl: pecs['image']!,
-              //   width: imageWidth,
-              //   fit: BoxFit.cover,
-              //   placeholder: (context, url) =>
-              //       const CircularProgressIndicator(),
-              //   errorWidget: (context, url, error) => const Icon(Icons.error),
-              // ),
+        // (pecs) => CachedNetworkImage(
+        //   imageUrl: pecs['image']!,
+        //   width: imageWidth,
+        //   fit: BoxFit.cover,
+        //   placeholder: (context, url) =>
+        //       const CircularProgressIndicator(),
+        //   errorWidget: (context, url, error) => const Icon(Icons.error),
+        // ),
         //     )
         //     .toList(),
-        children: [PecsButton(selectedPecs: widget.selectedPecs)],
+        children: [GPT3Button(selectedPecs: widget.selectedPecs)],
       ),
     );
   }
