@@ -13,8 +13,7 @@ class SelectedImagesWindow extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SelectedImagesWindowState createState() => _SelectedImagesWindowState();
+  State createState() => _SelectedImagesWindowState();
 }
 
 class _SelectedImagesWindowState extends State<SelectedImagesWindow> {

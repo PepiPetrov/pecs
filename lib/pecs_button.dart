@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:openai_client/openai_client.dart';
-import 'package:pecs/env.dart';
+import 'package:pecs/openai/completion_response.dart';
+import 'package:pecs/openai/openai_request.dart';
 
 class GPT3Button extends StatefulWidget {
   final List<Map<String, String>> selectedPecs;
@@ -8,35 +8,26 @@ class GPT3Button extends StatefulWidget {
   const GPT3Button({Key? key, required this.selectedPecs}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _GPT3ButtonState createState() => _GPT3ButtonState();
+  State createState() => _GPT3ButtonState();
 }
 
 class _GPT3ButtonState extends State<GPT3Button> {
   late String resultText = "";
 
-  Future<void> _handleGPT3Request() async {
+  Future<CompletionsResponse> _handleGPT3Request() async {
     List<String> words =
         widget.selectedPecs.map((pec) => pec['word']!).toList();
-    String englishSentence = words.join(', ');
-    String requestText =
-        'Construct a sentence in Bulgarian using the following words from PECS cards. First, construct the sentence in English and then translate it: $englishSentence';
+    CompletionsResponse result = await CompletionsApi.getSentence(words);
 
-    const conf = OpenAIConfiguration(apiKey: openAIApiKey);
+    int startIndex =
+        result.firstCompletion!.indexOf("Bulgarian") + "Bulgarian".length;
 
-    final client = OpenAIClient(configuration: conf);
-
-    final completion = await client.completions
-        .create(
-            model: 'text-davinci-003',
-            prompt: requestText,
-            maxTokens: 200,
-            stop: '\n')
-        .data;
-
+    String bulgarianText = result.firstCompletion!.substring(startIndex);
     setState(() {
-      resultText = completion.choices[0].text;
+      resultText = bulgarianText.replaceAll(":", "").trim();
     });
+
+    return result;
   }
 
   @override
@@ -48,7 +39,18 @@ class _GPT3ButtonState extends State<GPT3Button> {
           child: const Text('Request GPT-3'),
         ),
         const SizedBox(height: 10),
-        Text(resultText),
+        SelectableText(
+          resultText,
+          style: const TextStyle(fontFamily: "Roboto"),
+        ),
+        Column(
+          children: widget.selectedPecs
+              .map((pecs) => SelectableText(
+                    pecs["word"]!,
+                    style: const TextStyle(fontFamily: "Roboto"),
+                  ))
+              .toList(),
+        )
       ],
     );
   }
