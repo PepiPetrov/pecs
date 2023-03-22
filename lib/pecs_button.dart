@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pecs/openai/completion_response.dart';
 import 'package:pecs/openai/openai_request.dart';
+import 'package:pecs/text_to_speech.dart';
 
 class GPT3Button extends StatefulWidget {
   final List<Map<String, String>> selectedPecs;
@@ -12,9 +13,9 @@ class GPT3Button extends StatefulWidget {
 }
 
 class _GPT3ButtonState extends State<GPT3Button> {
-  late String resultText = "";
+  late String resultText = "No result\n\n";
 
-  Future<CompletionsResponse> _handleGPT3Request() async {
+  Future<void> _handleGPT3Request() async {
     List<String> words =
         widget.selectedPecs.map((pec) => pec['word']!).toList();
     CompletionsResponse result = await CompletionsApi.getSentence(words);
@@ -25,9 +26,8 @@ class _GPT3ButtonState extends State<GPT3Button> {
     String bulgarianText = result.firstCompletion!.substring(startIndex);
     setState(() {
       resultText = bulgarianText.replaceAll(":", "").trim();
+      resultText += "\n\n";
     });
-
-    return result;
   }
 
   @override
@@ -38,19 +38,31 @@ class _GPT3ButtonState extends State<GPT3Button> {
           onPressed: () => _handleGPT3Request(),
           child: const Text('Request GPT-3'),
         ),
-        const SizedBox(height: 10),
+        // const SizedBox(height: 10),
+        const SelectableText("Result: "),
         SelectableText(
           resultText,
           style: const TextStyle(fontFamily: "Roboto"),
         ),
-        Column(
-          children: widget.selectedPecs
-              .map((pecs) => SelectableText(
-                    pecs["word"]!,
-                    style: const TextStyle(fontFamily: "Roboto"),
-                  ))
-              .toList(),
-        )
+        const SizedBox(height: 30),
+        // const SelectableText(
+        //   "Selected words: ",
+        //   style: TextStyle(fontFamily: "Roboto"),
+        // ),
+        // Column(
+        //   children: widget.selectedPecs
+        //       .map((pecs) => SelectableText(
+        //             pecs["word"]!,
+        //             style: const TextStyle(fontFamily: "Roboto"),
+        //           ))
+        //       .toList(),
+        // ),
+        !resultText.contains("No result")
+            ? TextToSpeechWidget(text: resultText)
+            : const SizedBox(
+                height: 0,
+                width: 0,
+              ),
       ],
     );
   }

@@ -1,5 +1,5 @@
 import 'package:http/http.dart';
-import 'env.dart';
+import 'package:pecs/env.dart';
 import 'completion_request.dart';
 import 'completion_response.dart';
 
@@ -15,7 +15,7 @@ class CompletionsApi {
   static Future<CompletionsResponse> getSentence(List<String> words) async {
     String englishSentence = words.join(', ');
     String prompt =
-        'Construct a sentence in Bulgarian using the following words from PECS cards. First, construct the sentence in English and then translate it. Here are the words: $englishSentence\n';
+        'CConstruct a sentence in Bulgarian using the following words from PECS cards. First, construct the sentence in English and then translate it. Indicate where the bulgarian sentece starts with "Bulgarian: " Here are the words: $englishSentence\n';
 
     CompletionsRequest request = CompletionsRequest(
       model: 'text-davinci-003',

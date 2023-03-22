@@ -19,8 +19,8 @@ class SelectedImagesWindow extends StatefulWidget {
 class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final imageWidth = screenWidth / widget.numImagesPerRow;
+    // final screenWidth = MediaQuery.of(context).size.width;
+    // final imageWidth = screenWidth / widget.numImagesPerRow;
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +43,9 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
         //           width: imageWidth,
         //         ))
         //     .toList(),
-        children: [GPT3Button(selectedPecs: widget.selectedPecs)],
+        children: [
+          GPT3Button(selectedPecs: widget.selectedPecs),
+        ],
       ),
     );
   }
