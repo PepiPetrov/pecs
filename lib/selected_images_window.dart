@@ -1,6 +1,5 @@
-// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pecs/pecs_button.dart';
+import 'package:pecs/gpt3_button.dart';
 
 class SelectedImagesWindow extends StatefulWidget {
   final List<Map<String, String>> selectedPecs;
@@ -19,8 +18,8 @@ class SelectedImagesWindow extends StatefulWidget {
 class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
   @override
   Widget build(BuildContext context) {
-    // final screenWidth = MediaQuery.of(context).size.width;
-    // final imageWidth = screenWidth / widget.numImagesPerRow;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final imageWidth = screenWidth / widget.numImagesPerRow;
 
     return Scaffold(
       appBar: AppBar(
@@ -32,20 +31,34 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
           },
         ),
       ),
-      body: GridView.count(
-        crossAxisCount: widget.numImagesPerRow,
-        childAspectRatio: 1.0,
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 8.0,
-        // children: widget.selectedPecs
-        //     .map((pecs) => Image.asset(
-        //           pecs["image"]!,
-        //           width: imageWidth,
-        //         ))
-        //     .toList(),
-        children: [
-          GPT3Button(selectedPecs: widget.selectedPecs),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Center(
+              child: GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: widget.numImagesPerRow,
+                childAspectRatio: 1.0,
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                children: [
+                  ...widget.selectedPecs.map(
+                    (pecs) => Image.asset(
+                      pecs['image']!,
+                      width: imageWidth,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: GPT3Button(selectedPecs: widget.selectedPecs),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }

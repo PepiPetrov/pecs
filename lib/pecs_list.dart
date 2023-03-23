@@ -13,13 +13,13 @@ class PecsSelector extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State createState() => _PecsSelectorState();
+  State<PecsSelector> createState() => _PecsSelectorState();
 }
 
 class _PecsSelectorState extends State<PecsSelector> {
   final List<Map<String, String>> _selectedPecs = [];
 
-  _toggleSelected(int index) {
+  void _toggleSelected(int index) {
     setState(() {
       if (_selectedPecs.contains(widget.pecsImages[index])) {
         _selectedPecs.remove(widget.pecsImages[index]);
@@ -38,8 +38,8 @@ class _PecsSelectorState extends State<PecsSelector> {
 
     return GridView.builder(
       itemCount: widget.pecsImages.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: widget.numImagesPerRow,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
         mainAxisSpacing: 8.0,
         crossAxisSpacing: 8.0,
         childAspectRatio: 1,

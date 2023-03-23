@@ -5,19 +5,19 @@ import 'urls.dart';
 
 void main() {
   runApp(const MediaQuery(
-    data: MediaQueryData(devicePixelRatio: 1),
-    child: MyApp(),
+    data: MediaQueryData(),
+    child: PecsApp(),
   ));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class PecsApp extends StatefulWidget {
+  const PecsApp({super.key});
 
   @override
-  State createState() => _MyAppState();
+  State createState() => _PecsAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _PecsAppState extends State<PecsApp> {
   List<Map<String, String>> _selectedPecs = [];
 
   void _handleSelectionChange(List<Map<String, String>> selectedPecs) {
@@ -70,21 +70,20 @@ class _MyAppState extends State<MyApp> {
                   onSelectionChanged: _handleSelectionChange,
                   numImagesPerRow: getColumns(context)),
             ),
-            Builder(
-              builder: (BuildContext context) {
-                return ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              _showSelectedImagesWindow(context)),
-                    );
-                  },
-                  child: const Text('Show selected PECS'),
+            // Builder(
+            // builder: (BuildContext context) {
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => _showSelectedImagesWindow(context)),
                 );
               },
+              child: const Text('Show selected PECS'),
             )
+            // },
+            // )
           ],
         ),
       ),

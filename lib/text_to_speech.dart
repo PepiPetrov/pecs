@@ -18,14 +18,12 @@ class TextToSpeechWidget extends StatefulWidget {
 }
 
 class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
-  final _player = AudioPlayer();
+  late final AudioPlayer _player;
 
   @override
   void initState() {
     super.initState();
-    _player.playbackEventStream.listen((event) {
-      // Handle playback events, e.g. updating the UI.
-    });
+    _player = AudioPlayer();
   }
 
   @override
@@ -88,29 +86,43 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _convertTextToSpeech();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        StreamBuilder<PlayerState>(
-          stream: _player.playerStateStream,
-          builder: (context, snapshot) {
-            final playing = snapshot.data?.playing ?? false;
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: playing
-                      ? const Icon(Icons.pause)
-                      : const Icon(Icons.play_arrow),
-                  onPressed: playing ? _pause : _play,
+        FutureBuilder(
+          future: _convertTextToSpeech(),
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return StreamBuilder<PlayerState>(
+                stream: _player.playerStateStream,
+                builder: (context, snapshot) {
+                  final playing = _player.playing;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: playing
+                            ? const Icon(Icons.pause)
+                            : const Icon(Icons.play_arrow),
+                        onPressed: playing ? _pause : _play,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.stop),
+                        onPressed: _stop,
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else {
+              return const Center(
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.stop),
-                  onPressed: _stop,
-                ),
-              ],
-            );
+              );
+            }
           },
         ),
       ],
