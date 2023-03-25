@@ -4,9 +4,11 @@ import 'pecs_list.dart';
 import 'urls.dart';
 
 void main() {
-  runApp(const MediaQuery(
-    data: MediaQueryData(),
-    child: PecsApp(),
+  var navigatorKey = GlobalKey<NavigatorState>();
+  runApp(MaterialApp(
+    navigatorKey: navigatorKey,
+    title: 'PECS App',
+    home: const PecsApp(),
   ));
 }
 
@@ -29,27 +31,9 @@ class _PecsAppState extends State<PecsApp> {
   _showSelectedImagesWindow(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => SelectedImagesWindow(
-          selectedPecs: _selectedPecs,
-          numImagesPerRow: getColumns(context),
-        ),
+        builder: (context) => SelectedImagesWindow(selectedPecs: _selectedPecs),
       ),
     );
-  }
-
-  int getColumns(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
-    if (screenSize.width >= 992) {
-      // Desktop or laptop
-      return 7;
-    } else if (screenSize.width >= 768) {
-      // Tablet
-      return 4;
-    } else {
-      // Mobile
-      return 3;
-    }
   }
 
   @override
@@ -66,24 +50,25 @@ class _PecsAppState extends State<PecsApp> {
             const Padding(padding: EdgeInsets.all(8.0)),
             Expanded(
               child: PecsSelector(
-                  pecsImages: pecsImages,
-                  onSelectionChanged: _handleSelectionChange,
-                  numImagesPerRow: getColumns(context)),
+                pecsImages: pecsImages,
+                onSelectionChanged: _handleSelectionChange,
+              ),
             ),
-            // Builder(
-            // builder: (BuildContext context) {
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => _showSelectedImagesWindow(context)),
+            Builder(
+              builder: (BuildContext context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              _showSelectedImagesWindow(context)),
+                    );
+                  },
+                  child: const Text('Show selected PECS'),
                 );
               },
-              child: const Text('Show selected PECS'),
             )
-            // },
-            // )
           ],
         ),
       ),
