@@ -4,11 +4,9 @@ import 'pecs_list.dart';
 import 'urls.dart';
 
 void main() {
-  var navigatorKey = GlobalKey<NavigatorState>();
-  runApp(MaterialApp(
-    navigatorKey: navigatorKey,
+  runApp(const MaterialApp(
     title: 'PECS App',
-    home: const PecsApp(),
+    home: PecsApp(),
   ));
 }
 

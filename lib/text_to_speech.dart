@@ -68,10 +68,23 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
   }
 
   Future<void> _play() async {
+    if (_player.processingState == ProcessingState.completed) {
+      await _player.seek(Duration.zero);
+    }
     if (_player.playing) {
       return;
     }
     await _player.play();
+
+    await for (final playbackState in _player.playbackEventStream) {
+      if (playbackState.processingState == ProcessingState.completed) {
+        setState(() {
+          _player.stop();
+        });
+        break;
+      }
+    }
+    setState(() {});
   }
 
   Future<void> _pause() async {
