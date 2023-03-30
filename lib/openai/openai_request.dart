@@ -13,9 +13,9 @@ class CompletionsApi {
   };
 
   static Future<String> getSentence(List<String> words) async {
-    String englishSentence = words.join(', ');
+    String joinedWords = words.join(', ');
     String prompt =
-        'Construct a sentence in Bulgarian using the following words from PECS cards. First, construct the sentence in English and then translate it. Indicate where the bulgarian sentece starts with "Bulgarian: " Here are the words: $englishSentence\n';
+        'Construct a sentence in Bulgarian using the following words from PECS cards. Here are the words: $joinedWords\n';
 
     CompletionsRequest request = CompletionsRequest(
       model: 'text-davinci-003',
@@ -31,12 +31,7 @@ class CompletionsApi {
     CompletionsResponse completionsResponse =
         CompletionsResponse.fromResponse(response);
 
-    int startIndex = completionsResponse.firstCompletion!.indexOf("Bulgarian") +
-        "Bulgarian".length;
-
-    String bulgarianText =
-        completionsResponse.firstCompletion!.substring(startIndex);
-    return "${bulgarianText.replaceAll(":", "").trim()}\n\n";
+    return completionsResponse.firstCompletion!.replaceAll("\"", "");
   }
 
   static Future<CompletionsResponse> getTranslatedWords(
