@@ -55,7 +55,7 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
     };
     final ssml =
         '''<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="bg-BG">
-                  <voice name="bg-BG-BorislavNeural">${widget.text}</voice>
+                  <voice name="bg-BG-KalinaNeural">${widget.text}</voice>
                   </speak>''';
     final response = await http.post(endpoint, headers: headers, body: ssml);
 
