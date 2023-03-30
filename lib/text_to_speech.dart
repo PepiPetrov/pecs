@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart' show ByteData, kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show post;
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'env.dart';
@@ -57,7 +57,7 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
         '''<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="bg-BG">
                   <voice name="bg-BG-KalinaNeural">${widget.text}</voice>
                   </speak>''';
-    final response = await http.post(endpoint, headers: headers, body: ssml);
+    final response = await post(endpoint, headers: headers, body: ssml);
 
     if (response.statusCode != 200) {
       throw Exception('Failed to convert text to speech');
