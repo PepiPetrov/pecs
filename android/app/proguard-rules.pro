@@ -1,0 +1,3 @@
+-optimizations !code/simplification/cast,!field/*,!class/merging/*
+-dontobfuscate
+-renamesourcefileattribute SourceFile
