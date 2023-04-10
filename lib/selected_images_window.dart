@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pecs/gpt3_button.dart';
 
 class SelectedImagesWindow extends StatefulWidget {
-  final List<Map<String, String>> selectedPecs;
+  final List<Map<String, dynamic>> selectedPecs;
   final int numImagesPerRow;
 
   const SelectedImagesWindow({
@@ -44,8 +44,8 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
                 crossAxisSpacing: 8.0,
                 children: [
                   ...widget.selectedPecs.map(
-                    (pecs) => Image.asset(
-                      pecs['image']!,
+                    (pecs) => Image.network(
+                      pecs['url']!,
                       width: imageWidth,
                     ),
                   ),

@@ -1,26 +1,39 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:pecs/selected_images_window.dart';
 import 'pecs_list.dart';
-import 'urls.dart';
 
-void main() {
-  runApp(const MaterialApp(
+Future<String> _loadJsonAsset() async {
+  return await rootBundle.loadString('assets/images.json');
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final jsonData = await _loadJsonAsset();
+  final parsedJson = json.decode(jsonData) as List<Map<String, dynamic>>;
+
+  runApp(MaterialApp(
     title: 'PECS App',
-    home: PecsApp(),
+    home: PecsApp(pecsImages: parsedJson),
   ));
 }
 
 class PecsApp extends StatefulWidget {
-  const PecsApp({super.key});
+  final List<Map<String, dynamic>> pecsImages;
+
+  const PecsApp({Key? key, required this.pecsImages}) : super(key: key);
 
   @override
   State createState() => _PecsAppState();
 }
 
 class _PecsAppState extends State<PecsApp> {
-  List<Map<String, String>> _selectedPecs = [];
+  List<Map<String, dynamic>> _selectedPecs = [];
 
-  void _handleSelectionChange(List<Map<String, String>> selectedPecs) {
+  void _handleSelectionChange(List<Map<String, dynamic>> selectedPecs) {
     setState(() {
       _selectedPecs = selectedPecs;
     });
@@ -48,7 +61,7 @@ class _PecsAppState extends State<PecsApp> {
             const Padding(padding: EdgeInsets.all(8.0)),
             Expanded(
               child: PecsSelector(
-                pecsImages: pecsImages,
+                pecsImages: widget.pecsImages,
                 onSelectionChanged: _handleSelectionChange,
               ),
             ),
@@ -56,12 +69,7 @@ class _PecsAppState extends State<PecsApp> {
               builder: (BuildContext context) {
                 return ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              _showSelectedImagesWindow(context)),
-                    );
+                    _showSelectedImagesWindow(context);
                   },
                   child: const Text('Show selected PECS'),
                 );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PecsSelector extends StatefulWidget {
-  final List<Map<String, String>> pecsImages;
-  final Function(List<Map<String, String>> selectedPecs) onSelectionChanged;
+  final List<Map<String, dynamic>> pecsImages;
+  final Function(List<Map<String, dynamic>> selectedPecs) onSelectionChanged;
   final int numImagesPerRow;
 
   const PecsSelector({
@@ -17,7 +17,7 @@ class PecsSelector extends StatefulWidget {
 }
 
 class _PecsSelectorState extends State<PecsSelector> {
-  final List<Map<String, String>> _selectedPecs = [];
+  final List<Map<String, dynamic>> _selectedPecs = [];
 
   void _toggleSelected(int index) {
     setState(() {
@@ -62,8 +62,8 @@ class _PecsSelectorState extends State<PecsSelector> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
-                    child: Image.asset(
-                  widget.pecsImages[index]["image"]!,
+                    child: Image.network(
+                  widget.pecsImages[index]["url"]!,
                   width: imageWidth,
                 )),
               ],

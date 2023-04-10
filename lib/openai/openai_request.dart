@@ -12,7 +12,7 @@ class CompletionsApi {
     'Authorization': 'Bearer $openAIApiKey',
   };
 
-  static Future<String> getSentence(List<String> words) async {
+  static Future<String> getSentence(List<dynamic> words) async {
     String joinedWords = words.join(', ');
     String prompt =
         'Construct a sentence using the following words. Here are the words: $joinedWords\n';

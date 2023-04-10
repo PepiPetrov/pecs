@@ -6,7 +6,7 @@ import 'package:pecs/openai/openai_request.dart';
 import 'package:pecs/text_to_speech.dart';
 
 class GPT3Button extends StatefulWidget {
-  final List<Map<String, String>> selectedPecs;
+  final List<Map<String, dynamic>> selectedPecs;
 
   const GPT3Button({Key? key, required this.selectedPecs}) : super(key: key);
 
@@ -25,7 +25,7 @@ class _GPT3ButtonState extends State<GPT3Button> {
   }
 
   Future<void> _getResultAndAddToState() async {
-    final words = widget.selectedPecs.map((pecs) => pecs['word']!).toList();
+    final words = widget.selectedPecs.map((pecs) => pecs['keyword']!).toList();
     final result = await CompletionsApi.getSentence(words);
 
     Uri uri = Uri.https('translate.googleapis.com', '/translate_a/single',
@@ -55,13 +55,9 @@ class _GPT3ButtonState extends State<GPT3Button> {
                 ),
               ),
         const SizedBox(height: 10),
-        if (!resultText.contains('No result'))
-          TextToSpeechWidget(text: resultText)
-        else
-          const SizedBox(
-            height: 0,
-            width: 0,
-          ),
+        resultText.contains('No result')
+            ? const SizedBox()
+            : TextToSpeechWidget(text: resultText)
       ],
     );
   }
