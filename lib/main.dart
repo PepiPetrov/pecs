@@ -13,11 +13,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final jsonData = await _loadJsonAsset();
-  final parsedJson = json.decode(jsonData) as List<Map<String, dynamic>>;
-
+  final parsedJson = json.decode(jsonData) as List<dynamic>;
   runApp(MaterialApp(
     title: 'PECS App',
-    home: PecsApp(pecsImages: parsedJson),
+    home: PecsApp(pecsImages: parsedJson.cast()),
   ));
 }
 
