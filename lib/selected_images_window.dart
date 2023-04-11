@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pecs/gpt3_button.dart';
+import 'package:pecs/pecs_list.dart' show PecsSelectorState;
 
 class SelectedImagesWindow extends StatefulWidget {
   final List<Map<String, dynamic>> selectedPecs;
   final int numImagesPerRow;
+  final GlobalKey<PecsSelectorState> pecsSelectorKey;
 
-  const SelectedImagesWindow({
-    Key? key,
-    required this.selectedPecs,
-    this.numImagesPerRow = 6,
-  }) : super(key: key);
+  const SelectedImagesWindow(
+      {Key? key,
+      required this.selectedPecs,
+      this.numImagesPerRow = 6,
+      required this.pecsSelectorKey})
+      : super(key: key);
 
   @override
   State createState() => _SelectedImagesWindowState();
@@ -57,6 +60,13 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
               child: GPT3Button(selectedPecs: widget.selectedPecs),
             ),
             const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                widget.pecsSelectorKey.currentState?.clearPecs();
+                Navigator.pop(context);
+              },
+              child: const Text('Clear selected PECS'),
+            )
           ],
         ),
       ),

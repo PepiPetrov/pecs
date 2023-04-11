@@ -31,6 +31,8 @@ class PecsApp extends StatefulWidget {
 
 class _PecsAppState extends State<PecsApp> {
   List<Map<String, dynamic>> _selectedPecs = [];
+  final GlobalKey<PecsSelectorState> pecsSelectorKey =
+      GlobalKey<PecsSelectorState>();
 
   void _handleSelectionChange(List<Map<String, dynamic>> selectedPecs) {
     setState(() {
@@ -41,7 +43,8 @@ class _PecsAppState extends State<PecsApp> {
   _showSelectedImagesWindow(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => SelectedImagesWindow(selectedPecs: _selectedPecs),
+        builder: (context) => SelectedImagesWindow(
+            pecsSelectorKey: pecsSelectorKey, selectedPecs: _selectedPecs),
       ),
     );
   }
@@ -60,19 +63,36 @@ class _PecsAppState extends State<PecsApp> {
             const Padding(padding: EdgeInsets.all(8.0)),
             Expanded(
               child: PecsSelector(
+                key: pecsSelectorKey,
                 pecsImages: widget.pecsImages,
                 onSelectionChanged: _handleSelectionChange,
               ),
             ),
-            Builder(
-              builder: (BuildContext context) {
-                return ElevatedButton(
-                  onPressed: () {
-                    _showSelectedImagesWindow(context);
+            Row(
+              children: [
+                const SizedBox(
+                  width: 5,
+                ),
+                Builder(
+                  builder: (BuildContext context) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        _showSelectedImagesWindow(context);
+                      },
+                      child: const Text('Show selected PECS'),
+                    );
                   },
-                  child: const Text('Show selected PECS'),
-                );
-              },
+                ),
+                const SizedBox(
+                  width: 80,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    pecsSelectorKey.currentState?.clearPecs();
+                  },
+                  child: const Text('Clear selected PECS'),
+                )
+              ],
             )
           ],
         ),

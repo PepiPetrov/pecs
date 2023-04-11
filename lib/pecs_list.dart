@@ -13,21 +13,27 @@ class PecsSelector extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PecsSelector> createState() => _PecsSelectorState();
+  State<PecsSelector> createState() => PecsSelectorState();
 }
 
-class _PecsSelectorState extends State<PecsSelector> {
-  final List<Map<String, dynamic>> _selectedPecs = [];
+class PecsSelectorState extends State<PecsSelector> {
+  List<Map<String, dynamic>> selectedPecs = [];
 
   void _toggleSelected(int index) {
     setState(() {
-      if (_selectedPecs.contains(widget.pecsImages[index])) {
-        _selectedPecs.remove(widget.pecsImages[index]);
+      if (selectedPecs.contains(widget.pecsImages[index])) {
+        selectedPecs.remove(widget.pecsImages[index]);
       } else {
-        _selectedPecs.add(widget.pecsImages[index]);
+        selectedPecs.add(widget.pecsImages[index]);
       }
     });
-    widget.onSelectionChanged(_selectedPecs);
+    widget.onSelectionChanged(selectedPecs);
+  }
+
+  void clearPecs() {
+    setState(() {
+      selectedPecs = [];
+    });
   }
 
   @override
@@ -52,7 +58,7 @@ class _PecsSelectorState extends State<PecsSelector> {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: _selectedPecs.contains(widget.pecsImages[index])
+                color: selectedPecs.contains(widget.pecsImages[index])
                     ? Colors.blue
                     : Colors.grey,
                 width: 2.0,
