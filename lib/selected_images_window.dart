@@ -6,12 +6,14 @@ class SelectedImagesWindow extends StatefulWidget {
   final List<Map<String, dynamic>> selectedPecs;
   final int numImagesPerRow;
   final GlobalKey<PecsSelectorState> pecsSelectorKey;
+  final Function() clearSelectedPecs;
 
   const SelectedImagesWindow(
       {Key? key,
       required this.selectedPecs,
       this.numImagesPerRow = 6,
-      required this.pecsSelectorKey})
+      required this.pecsSelectorKey,
+      required this.clearSelectedPecs})
       : super(key: key);
 
   @override
@@ -57,12 +59,13 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
             ),
             const SizedBox(height: 16),
             Center(
-              child: GPT3Button(selectedPecs: widget.selectedPecs),
+              child: GPT3SpeechSector(selectedPecs: widget.selectedPecs),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 widget.pecsSelectorKey.currentState?.clearPecs();
+                widget.clearSelectedPecs();
                 Navigator.pop(context);
               },
               child: const Text('Clear selected PECS'),

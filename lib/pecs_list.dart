@@ -18,13 +18,35 @@ class PecsSelector extends StatefulWidget {
 
 class PecsSelectorState extends State<PecsSelector> {
   List<Map<String, dynamic>> selectedPecs = [];
+  String? selectedCategory;
+
+  List<String> get categories {
+    // Get a list of unique categories from the pecsImages list
+    return widget.pecsImages
+        .map((pecs) => pecs['category'])
+        .take(10)
+        .toSet()
+        .toList()
+        .cast();
+  }
+
+  List<Map<String, dynamic>> get displayedPecs {
+    // Filter the pecsImages list to only include images with the selected category
+    if (selectedCategory == null) {
+      return widget.pecsImages;
+    } else {
+      return widget.pecsImages
+          .where((pecs) => pecs['category'] == selectedCategory)
+          .toList();
+    }
+  }
 
   void _toggleSelected(int index) {
     setState(() {
-      if (selectedPecs.contains(widget.pecsImages[index])) {
-        selectedPecs.remove(widget.pecsImages[index]);
+      if (selectedPecs.contains(displayedPecs[index])) {
+        selectedPecs.remove(displayedPecs[index]);
       } else {
-        selectedPecs.add(widget.pecsImages[index]);
+        selectedPecs.add(displayedPecs[index]);
       }
     });
     widget.onSelectionChanged(selectedPecs);
@@ -42,41 +64,76 @@ class PecsSelectorState extends State<PecsSelector> {
     final imageWidth = (screenWidth - (widget.numImagesPerRow - 1) * 8) /
         widget.numImagesPerRow;
 
-    return GridView.builder(
-      itemCount: widget.pecsImages.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 8.0,
-        childAspectRatio: 1,
-      ),
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            _toggleSelected(index);
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: selectedPecs.contains(widget.pecsImages[index])
-                    ? Colors.blue
-                    : Colors.grey,
-                width: 2.0,
+    return Column(
+      children: [
+        Wrap(
+          spacing: 8.0,
+          children: [
+            for (String category in categories)
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    selectedCategory = category;
+                  });
+                },
+                child: Text(category),
               ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                    child: Image.network(
-                  widget.pecsImages[index]["url"]!,
-                  width: imageWidth,
-                )),
-              ],
-            ),
+          ],
+        ),
+        if (selectedCategory != null)
+          Wrap(
+            spacing: 8.0,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    selectedCategory = null;
+                  });
+                },
+                child: const Text('Back'),
+              ),
+            ],
           ),
-        );
-      },
+        Expanded(
+          child: GridView.builder(
+            itemCount: displayedPecs.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 8.0,
+              crossAxisSpacing: 8.0,
+              childAspectRatio: 1,
+            ),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  _toggleSelected(index);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: selectedPecs.contains(displayedPecs[index])
+                          ? Colors.blue
+                          : Colors.grey,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Image.network(
+                          displayedPecs[index]['url']!,
+                          width: imageWidth,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

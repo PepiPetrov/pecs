@@ -1,20 +1,19 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' show post;
+import 'package:pecs/gtranslator.dart';
 import 'package:pecs/openai/openai_request.dart';
 import 'package:pecs/text_to_speech.dart';
 
-class GPT3Button extends StatefulWidget {
+class GPT3SpeechSector extends StatefulWidget {
   final List<Map<String, dynamic>> selectedPecs;
 
-  const GPT3Button({Key? key, required this.selectedPecs}) : super(key: key);
+  const GPT3SpeechSector({Key? key, required this.selectedPecs})
+      : super(key: key);
 
   @override
-  State createState() => _GPT3ButtonState();
+  State createState() => _GPT3SpeechSectorState();
 }
 
-class _GPT3ButtonState extends State<GPT3Button> {
+class _GPT3SpeechSectorState extends State<GPT3SpeechSector> {
   late String resultText;
 
   @override
@@ -28,12 +27,9 @@ class _GPT3ButtonState extends State<GPT3Button> {
     final words = widget.selectedPecs.map((pecs) => pecs['keyword']!).toList();
     final result = await CompletionsApi.getSentence(words);
 
-    Uri uri = Uri.https('translate.googleapis.com', '/translate_a/single',
-        {'client': 'gtx', 'sl': 'en', 'tl': 'bg', 'dt': 't', 'q': result});
-    final response = await post(uri);
-    final decodedBody = jsonDecode(response.body);
+    final translated = await translate(result);
     setState(() {
-      resultText = decodedBody[0][0][0];
+      resultText = translated;
     });
   }
 

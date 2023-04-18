@@ -6,14 +6,14 @@ import 'package:pecs/selected_images_window.dart';
 import 'pecs_list.dart';
 
 Future<String> _loadJsonAsset() async {
-  return await rootBundle.loadString('assets/images.json');
+  return await rootBundle.loadString('assets/grouped.json');
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final jsonData = await _loadJsonAsset();
-  final parsedJson = json.decode(jsonData) as List<dynamic>;
+  final parsedJson = json.decode(jsonData) as List;
   runApp(MaterialApp(
     title: 'PECS App',
     home: PecsApp(pecsImages: parsedJson.cast()),
@@ -44,7 +44,10 @@ class _PecsAppState extends State<PecsApp> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => SelectedImagesWindow(
-            pecsSelectorKey: pecsSelectorKey, selectedPecs: _selectedPecs),
+          pecsSelectorKey: pecsSelectorKey,
+          selectedPecs: _selectedPecs,
+          clearSelectedPecs: () => {_handleSelectionChange([])},
+        ),
       ),
     );
   }
@@ -73,23 +76,26 @@ class _PecsAppState extends State<PecsApp> {
                 const SizedBox(
                   width: 5,
                 ),
-                Builder(
-                  builder: (BuildContext context) {
-                    return ElevatedButton(
-                      onPressed: () {
-                        _showSelectedImagesWindow(context);
-                      },
-                      child: const Text('Show selected PECS'),
-                    );
-                  },
-                ),
+                Builder(builder: (BuildContext context) {
+                  return ElevatedButton(
+                    onPressed: _selectedPecs.isNotEmpty
+                        ? () {
+                            _showSelectedImagesWindow(context);
+                          }
+                        : null,
+                    child: const Text('Show selected PECS'),
+                  );
+                }),
                 const SizedBox(
                   width: 80,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    pecsSelectorKey.currentState?.clearPecs();
-                  },
+                  onPressed: _selectedPecs.isNotEmpty
+                      ? () {
+                          pecsSelectorKey.currentState?.clearPecs();
+                          _handleSelectionChange([]);
+                        }
+                      : null,
                   child: const Text('Clear selected PECS'),
                 )
               ],
