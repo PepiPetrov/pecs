@@ -24,7 +24,6 @@ class PecsSelectorState extends State<PecsSelector> {
     // Get a list of unique categories from the pecsImages list
     return widget.pecsImages
         .map((pecs) => pecs['category'])
-        .take(10)
         .toSet()
         .toList()
         .cast();

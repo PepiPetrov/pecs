@@ -76,16 +76,18 @@ class _PecsAppState extends State<PecsApp> {
                 const SizedBox(
                   width: 5,
                 ),
-                Builder(builder: (BuildContext context) {
-                  return ElevatedButton(
-                    onPressed: _selectedPecs.isNotEmpty
-                        ? () {
-                            _showSelectedImagesWindow(context);
-                          }
-                        : null,
-                    child: const Text('Show selected PECS'),
-                  );
-                }),
+                Builder(
+                  builder: (BuildContext context) {
+                    return ElevatedButton(
+                      onPressed: _selectedPecs.isNotEmpty
+                          ? () {
+                              _showSelectedImagesWindow(context);
+                            }
+                          : null,
+                      child: const Text('Show selected PECS'),
+                    );
+                  },
+                ),
                 const SizedBox(
                   width: 80,
                 ),
