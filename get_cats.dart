@@ -3,7 +3,7 @@ import 'dart:io';
 
 void main() {
   // Read the JSON file into a string
-  final jsonString = File('assets/images.json').readAsStringSync();
+  final jsonString = File('assets/grouped.json').readAsStringSync();
 
   // Parse the JSON string into a list of maps
   final List<dynamic> cards = jsonDecode(jsonString);

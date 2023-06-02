@@ -9,7 +9,7 @@ void main() {
   final List<dynamic> cards = jsonDecode(jsonString);
 
   // Define the category mappings
-  final categoryMappings = {
+  var categoryMappings = {
     "Common": [
       "adverb of place",
       "adverb of manner",
@@ -223,7 +223,9 @@ void main() {
       "atmospheric device",
       "music device",
       "chronological device",
-      "vehicle component"
+      "vehicle component",
+      "protective equipment",
+      "light fixture"
     ],
     "Science": [
       "geology",
@@ -239,6 +241,7 @@ void main() {
       "psychology",
       "paleontology",
       "environmental science",
+      "pollution",
       "astronomy",
       "atmospheric phenomena",
       "measurement unit",
@@ -346,6 +349,7 @@ void main() {
       "diving",
       "karate",
       "swimming",
+      "swimming pool",
       "surf",
       "football",
       "horse riding",
@@ -543,11 +547,49 @@ void main() {
       "living being",
       "playground",
       "visual art"
+    ],
+    "No category": [
+      "architectural element",
+      "recycling",
+      "painting",
+      "routine",
+      "drawing",
+      "architecture",
+      "raw material",
+      "war",
+      "communication system",
+      "culture",
+      "security and defense",
+      "categorization",
+      "craftsmanship",
+      "death",
+      "pattern",
+      "mineral origin material",
+      "weapon",
+      "derived material",
+      "costume",
+      "theater",
+      ""
     ]
   };
   // Modify the category of each card based on the category mappings
   for (final card in cards) {
     card.remove("id");
+    card['subcategory'] = card['category'];
+    for (final category in categoryMappings.keys) {
+      if (categoryMappings[category]!.contains(card['category'])) {
+        card['category'] = category;
+      }
+      card["keyword"] = card["keyword"].trim();
+    }
+  }
+
+  categoryMappings = {
+    "Nature": ["Animals", "Plants"],
+    "World": ["Politics and Economics", "Law", "Industries"]
+  };
+  // Modify the category of each card based on the category mappings
+  for (final card in cards) {
     card['subcategory'] = card['category'];
     for (final category in categoryMappings.keys) {
       if (categoryMappings[category]!.contains(card['category'])) {

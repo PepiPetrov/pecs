@@ -1,5 +1,4 @@
-const String openAIApiKey =
-    "<key>";
+const String openAIApiKey = "<openai-key>";
 
-const String msTtsKey = "<key>";
-const String msTtsRegion = "<region>";
+const String msTtsKey = "<mstts-key>";
+const String msTtsRegion = "<mstts-region>";
