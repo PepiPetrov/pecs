@@ -127,6 +127,8 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
                   );
                 },
               );
+            } else if (snapshot.hasError) {
+              return const Text("An error occured");
             } else {
               return const Center(
                 child: SizedBox(
