@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
-import 'env.dart';
+import '../env.dart';
 
 class TextToSpeechWidget extends StatefulWidget {
   final String text;

@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pecs/selected_images_window.dart';
-import 'pecs_list.dart';
+import 'package:pecs/selected_pecs_page/selected_images_window.dart';
+import 'package:pecs/selected_pecs_btns_row.dart';
+import 'pecs_list/pecs_list.dart';
 
 Future<String> _loadJsonAsset() async {
   return await rootBundle.loadString('assets/grouped.json');
@@ -31,7 +32,7 @@ class PecsApp extends StatefulWidget {
 
 class _PecsAppState extends State<PecsApp> {
   List<Map<String, dynamic>> _selectedPecs = [];
-  String? _selectedCategory = "";
+  String? _selectedCategory;
   final GlobalKey<PecsSelectorState> pecsSelectorKey =
       GlobalKey<PecsSelectorState>();
 
@@ -80,37 +81,14 @@ class _PecsAppState extends State<PecsApp> {
               ),
             ),
             if (_selectedCategory != null)
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Builder(
-                    builder: (BuildContext context) {
-                      return ElevatedButton(
-                        onPressed: _selectedPecs.isNotEmpty
-                            ? () {
-                                _showSelectedImagesWindow(context);
-                              }
-                            : null,
-                        child: const Text('Show selected PECS'),
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    width: 80,
-                  ),
-                  ElevatedButton(
-                    onPressed: _selectedPecs.isNotEmpty
-                        ? () {
-                            pecsSelectorKey.currentState?.clearPecs();
-                            _handleSelectionChange([]);
-                          }
-                        : null,
-                    child: const Text('Clear selected PECS'),
-                  )
-                ],
-              )
+              SelectedPecsRow(
+                selectedPecs: _selectedPecs,
+                showSelectedImages: () => _showSelectedImagesWindow(context),
+                clearSelectedPecs: () {
+                  pecsSelectorKey.currentState!.clearPecs();
+                  _handleSelectionChange([]);
+                },
+              ),
           ],
         ),
       ),

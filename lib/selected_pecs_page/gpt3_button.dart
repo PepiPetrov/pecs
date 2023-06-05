@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pecs/gtranslator.dart';
+import 'package:pecs/funcs/gtranslator.dart';
 import 'package:pecs/openai/openai_request.dart';
-import 'package:pecs/text_to_speech.dart';
+import 'package:pecs/selected_pecs_page/text_to_speech.dart';
 
 class GPT3SpeechSector extends StatefulWidget {
   final List<Map<String, dynamic>> selectedPecs;
