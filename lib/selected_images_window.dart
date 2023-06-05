@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pecs/gpt3_button.dart';
-import 'package:pecs/pecs_list.dart' show PecsSelectorState;
+import 'package:pecs/pecs_list.dart';
 
 class SelectedImagesWindow extends StatefulWidget {
   final List<Map<String, dynamic>> selectedPecs;

@@ -1,6 +1,6 @@
-import 'dart:convert' show jsonDecode;
+import 'dart:convert';
 
-import 'package:http/http.dart' show post;
+import 'package:http/http.dart';
 
 Future<String> translate(String text) async {
   Uri uri = Uri.https('translate.googleapis.com', '/translate_a/single',

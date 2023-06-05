@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class PecsSelector extends StatefulWidget {
   final List<Map<String, dynamic>> pecsImages;
   final Function(List<Map<String, dynamic>> selectedPecs) onSelectionChanged;
+  final Function(String? selectedCategory) onCategorySelectionChanged;
   final int numImagesPerRow;
 
   const PecsSelector({
     Key? key,
     required this.pecsImages,
     required this.onSelectionChanged,
+    required this.onCategorySelectionChanged,
     this.numImagesPerRow = 3,
   }) : super(key: key);
 
@@ -31,13 +33,9 @@ class PecsSelectorState extends State<PecsSelector> {
 
   List<Map<String, dynamic>> get displayedPecs {
     // Filter the pecsImages list to only include images with the selected category
-    if (selectedCategory == null) {
-      return widget.pecsImages;
-    } else {
-      return widget.pecsImages
-          .where((pecs) => pecs['category'] == selectedCategory)
-          .toList();
-    }
+    return widget.pecsImages
+        .where((pecs) => pecs['category'] == selectedCategory)
+        .toList();
   }
 
   void _toggleSelected(int index) {
@@ -68,6 +66,7 @@ class PecsSelectorState extends State<PecsSelector> {
         selectedCategory == null
             ? Wrap(
                 spacing: 4.0,
+                alignment: WrapAlignment.center,
                 children: [
                   for (String category in categories)
                     ElevatedButton(
@@ -75,13 +74,39 @@ class PecsSelectorState extends State<PecsSelector> {
                         setState(() {
                           selectedCategory = category;
                         });
+                        widget.onCategorySelectionChanged(selectedCategory);
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                      ),
                       child: Text(
                         category,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                 ],
               )
+
+            // ? Wrap(
+            //     spacing: 4.0,
+            //     children: [
+            //       for (String category in categories)
+            //         ElevatedButton(
+            //           onPressed: () {
+            //             setState(() {
+            //               selectedCategory = category;
+            //             });
+            //           },
+            //           child: Text(
+            //             category,
+            //           ),
+            //         ),
+            //     ],
+            //   )
             : Wrap(
                 spacing: 8.0,
                 children: [
@@ -100,6 +125,7 @@ class PecsSelectorState extends State<PecsSelector> {
                   setState(() {
                     selectedCategory = null;
                   });
+                  widget.onCategorySelectionChanged(null);
                 },
                 child: const Text('Back'),
               ),

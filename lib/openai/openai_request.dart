@@ -1,4 +1,4 @@
-import 'package:http/http.dart' show post, Response;
+import 'package:http/http.dart';
 import 'package:pecs/env.dart';
 import 'completion_request.dart';
 import 'completion_response.dart';

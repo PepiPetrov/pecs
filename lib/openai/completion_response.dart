@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' show Response;
+import 'package:http/http.dart';
 
 class CompletionsResponse {
   final String? id;
