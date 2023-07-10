@@ -28,10 +28,16 @@ class GPT3SpeechSector extends StatelessWidget {
         } else if (snapshot.hasData) {
           return Column(
             children: [
-              const SelectableText('Result: '),
-              SelectableText(
-                snapshot.data!,
-                style: const TextStyle(fontFamily: 'Roboto'),
+              Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  const Text('Result: '),
+                  Text(
+                    snapshot.data!,
+                    style: const TextStyle(fontFamily: 'Roboto'),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
               TextToSpeechWidget(text: snapshot.data!),
             ],

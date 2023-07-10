@@ -12,12 +12,21 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 4.0,
-      alignment: WrapAlignment.center,
-      children: [
-        for (String category in categories)
-          ElevatedButton(
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // Display three items per row
+        crossAxisSpacing: 4.0,
+        mainAxisSpacing: 4.0,
+      ),
+      primary: false,
+      padding: const EdgeInsets.all(4.0),
+      shrinkWrap: true,
+      physics: const ScrollPhysics(),
+      itemCount: categories.length,
+      itemBuilder: (BuildContext context, int index) {
+        final category = categories[index];
+        return SizedBox(
+          child: ElevatedButton(
             onPressed: () {
               onCategorySelectionChanged(category);
             },
@@ -28,12 +37,14 @@ class CategoryList extends StatelessWidget {
             child: Text(
               category,
               style: const TextStyle(
-                fontSize: 16.0,
+                fontSize: 14.0, // Decrease the font size
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
-      ],
+        );
+      },
     );
   }
 }

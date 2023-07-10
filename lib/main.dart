@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pecs/selected_pecs_page/selected_images_window.dart';
-import 'package:pecs/selected_pecs_btns_row.dart';
+import 'package:pecs/selected_pecs_page/selected_pecs_btns_row.dart';
 import 'pecs_list/pecs_list.dart';
 
 Future<String> _loadJsonAsset() async {

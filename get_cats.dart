@@ -14,4 +14,5 @@ void main() {
   }
 
   print(catsAndWord.toList().join("\n"));
+  print(catsAndWord.length);
 }

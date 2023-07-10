@@ -40,36 +40,36 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
         child: Column(
           children: [
             Center(
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: widget.numImagesPerRow,
-                childAspectRatio: 1.0,
-                mainAxisSpacing: 8.0,
-                crossAxisSpacing: 8.0,
-                children: [
-                  ...widget.selectedPecs.map(
-                    (pecs) => Image.network(
-                      pecs['url']!,
-                      width: imageWidth,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    ...widget.selectedPecs.map(
+                      (pecs) => Image.network(
+                        pecs['url']!,
+                        width: imageWidth,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 16),
             Center(
-              child: GPT3SpeechSector(selectedPecs: widget.selectedPecs),
+              child: Column(children: [
+                GPT3SpeechSector(selectedPecs: widget.selectedPecs),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    widget.pecsSelectorKey.currentState?.clearPecs();
+                    widget.clearSelectedPecs();
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Clear selected PECS'),
+                )
+              ]),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                widget.pecsSelectorKey.currentState?.clearPecs();
-                widget.clearSelectedPecs();
-                Navigator.pop(context);
-              },
-              child: const Text('Clear selected PECS'),
-            )
           ],
         ),
       ),
