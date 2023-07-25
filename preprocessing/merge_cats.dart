@@ -3,13 +3,18 @@ import 'dart:io';
 
 void main() {
   // Read the JSON file into a string
-  final jsonString = File('assets/images.json').readAsStringSync();
+  final jsonString = File('images.json').readAsStringSync();
 
   // Parse the JSON string into a list of maps
   final List<dynamic> cards = jsonDecode(jsonString);
 
   // Define the category mappings
   var categoryMappings = {
+    "Alphabet": [
+      "alphabet",
+      "letter",
+      "language",
+    ],
     "Common": [
       "adverb of place",
       "adverb of manner",
@@ -22,9 +27,6 @@ void main() {
       "possessive adjective",
       "adjective",
       "comparative adjective",
-      "language",
-      "alphabet",
-      "letter",
       "concessive conjunction",
       "copulative conjunction",
       "causal conjunction",
@@ -33,8 +35,6 @@ void main() {
       "personal pronoun",
       "indefinite pronoun",
       "interrogative pronoun",
-      "verb",
-      "usual verbs",
       "size",
       "energy",
       "preposition",
@@ -42,9 +42,13 @@ void main() {
       "color",
       "number",
       "container",
-      "shape",
       "basic concepts",
       "miscellaneous"
+    ],
+    "Shape": ["shape"],
+    "Verbs": [
+      "verb",
+      "usual verbs",
     ],
     "Food and Drinks": [
       "beverage",
@@ -152,13 +156,7 @@ void main() {
       "physical features",
       "cosmetic"
     ],
-    "Feelings and Sensations": [
-      "taste",
-      "body sensation",
-      "senses",
-      "texture",
-      "feeling"
-    ],
+    "Feelings": ["taste", "body sensation", "senses", "texture", "feeling"],
     "Animals": [
       "arachnid",
       "omnivorous",
@@ -248,33 +246,35 @@ void main() {
       "planet",
       "natural disaster",
     ],
-    "Entertainment and Events": [
+    "Events": [
+      "olympic games",
+      "popular event",
+      "event",
+      "sport event",
+      "social event",
+      "recreational facility",
+      "entertainment facility",
+      "carnival",
+      "gambling",
+      "popular festival",
+      "wedding",
+      "show",
+      "opera",
+      "hobby",
+      "tv show",
+    ],
+    "Leisure": [
+      "chess",
+      "bullfighting",
+      "photography",
+      "cinema",
+      "leisure",
       "toy",
       "board game",
       "card game",
       "traditional game",
       "video game",
       "game",
-      "olympic games",
-      "popular event",
-      "event",
-      "sport event",
-      "social event",
-      "chess",
-      "bullfighting",
-      "photography",
-      "recreational facility",
-      "entertainment facility",
-      "carnival",
-      "gambling",
-      "popular festival",
-      "cinema",
-      "wedding",
-      "show",
-      "opera",
-      "hobby",
-      "tv show",
-      "leisure"
     ],
     "Holidays": [
       "easter week",
@@ -575,7 +575,6 @@ void main() {
   // Modify the category of each card based on the category mappings
   for (final card in cards) {
     card.remove("id");
-    card['subcategory'] = card['category'];
     for (final category in categoryMappings.keys) {
       if (categoryMappings[category]!.contains(card['category'])) {
         card['category'] = category;
@@ -590,7 +589,6 @@ void main() {
   };
   // Modify the category of each card based on the category mappings
   for (final card in cards) {
-    card['subcategory'] = card['category'];
     for (final category in categoryMappings.keys) {
       if (categoryMappings[category]!.contains(card['category'])) {
         card['category'] = category;
@@ -600,7 +598,7 @@ void main() {
   }
 
   // Write the modified cards to a JSON file
-  final File file = File('assets/grouped.json');
+  final File file = File('grouped.json');
   file.writeAsStringSync(json.encode(cards));
   print(Set.from(cards.map((e) => e["category"])).length);
 }

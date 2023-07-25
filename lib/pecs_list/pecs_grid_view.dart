@@ -42,11 +42,9 @@ class PecsGridView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    child: Image.network(
-                      displayedPecs[index]['url']!,
-                      width: imageWidth,
-                    ),
+                  Image.network(
+                    displayedPecs[index]['url']!,
+                    width: imageWidth,
                   ),
                 ],
               ),
