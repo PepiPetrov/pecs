@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pecs/funcs/gtranslator.dart';
-// import 'package:pecs/openai/openai_request.dart';
+import 'package:pecs/openai/openai_request.dart';
 import 'package:pecs/selected_pecs_page/text_to_speech.dart';
 
 class GPT3SpeechSector extends StatelessWidget {
@@ -12,9 +12,9 @@ class GPT3SpeechSector extends StatelessWidget {
   Future<String> _getResult() async {
     final words =
         selectedPecs.map((pecs) => pecs['keyword']!).toList(growable: false);
-    // final result = await CompletionsApi.getSentence(words.cast());
+    final result = await CompletionsApi.getSentence(words.cast());
 
-    final translated = await translate(words.join(" "));
+    final translated = await translate(result);
     return translated;
   }
 
@@ -28,17 +28,17 @@ class GPT3SpeechSector extends StatelessWidget {
         } else if (snapshot.hasData) {
           return Column(
             children: [
-              // Wrap(
-              //   alignment: WrapAlignment.center,
-              //   children: [
-              //     const Text('Result: '),
-              //     Text(
-              //       snapshot.data!,
-              //       style: const TextStyle(fontFamily: 'Roboto'),
-              //       textAlign: TextAlign.center,
-              //     ),
-              //   ],
-              // ),
+              Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  const Text('Result: '),
+                  Text(
+                    snapshot.data!,
+                    style: const TextStyle(fontFamily: 'Roboto'),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
               TextToSpeechWidget(text: snapshot.data!),
             ],
           );

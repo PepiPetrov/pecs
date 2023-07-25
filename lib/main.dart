@@ -6,15 +6,18 @@ import 'package:pecs/selected_pecs_page/selected_images_window.dart';
 import 'package:pecs/selected_pecs_page/selected_pecs_btns_row.dart';
 import 'pecs_list/pecs_list.dart';
 
+Future<String> _loadJsonAsset() async {
+  return await rootBundle.loadString('assets/grouped.json');
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final jsonData = await rootBundle.loadString('assets/grouped.json');
+  final jsonData = await _loadJsonAsset();
   final parsedJson = json.decode(jsonData) as List;
   runApp(MaterialApp(
     title: 'PECS App',
     home: PecsApp(pecsImages: parsedJson.cast()),
-    debugShowCheckedModeBanner: false,
   ));
 }
 

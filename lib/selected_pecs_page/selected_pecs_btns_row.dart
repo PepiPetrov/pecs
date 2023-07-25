@@ -14,23 +14,27 @@ class SelectedPecsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Wrap(children: [
-      Builder(
-        builder: (BuildContext context) {
-          return ElevatedButton(
-            onPressed: selectedPecs.isNotEmpty ? showSelectedImages : null,
-            child: const Text('Show'),
-          );
-        },
-      ),
-      const SizedBox(
-        width: 5,
-      ),
-      ElevatedButton(
-        onPressed: selectedPecs.isNotEmpty ? clearSelectedPecs : null,
-        child: const Text('Clear'),
-      )
-    ]));
+    return Row(
+      children: [
+        const SizedBox(
+          width: 5,
+        ),
+        Builder(
+          builder: (BuildContext context) {
+            return ElevatedButton(
+              onPressed: selectedPecs.isNotEmpty ? showSelectedImages : null,
+              child: const Text('Show selected PECS'),
+            );
+          },
+        ),
+        const SizedBox(
+          width: 80,
+        ),
+        ElevatedButton(
+          onPressed: selectedPecs.isNotEmpty ? clearSelectedPecs : null,
+          child: const Text('Clear selected PECS'),
+        )
+      ],
+    );
   }
 }

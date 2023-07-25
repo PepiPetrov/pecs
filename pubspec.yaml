@@ -17,7 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  http: ^1.1.0
+  http: ^0.13.5
   just_audio: ^0.9.32
   path_provider: ^2.0.13
 
