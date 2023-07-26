@@ -2,22 +2,20 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pecs/credits.dart';
 import 'package:pecs/selected_pecs_page/selected_images_window.dart';
 import 'package:pecs/selected_pecs_page/selected_pecs_btns_row.dart';
 import 'pecs_list/pecs_list.dart';
 
-Future<String> _loadJsonAsset() async {
-  return await rootBundle.loadString('assets/grouped.json');
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final jsonData = await _loadJsonAsset();
+  final jsonData = await rootBundle.loadString('assets/grouped.json');
   final parsedJson = json.decode(jsonData) as List;
   runApp(MaterialApp(
     title: 'PECS App',
     home: PecsApp(pecsImages: parsedJson.cast()),
+    debugShowCheckedModeBanner: false,
   ));
 }
 
@@ -67,6 +65,26 @@ class _PecsAppState extends State<PecsApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('PECS'),
+          actions: [
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                switch (value) {
+                  case 'credits':
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const CreditPage()),
+                    );
+                    break;
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'credits',
+                  child: Text('Credits'),
+                ),
+              ],
+            ),
+          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
