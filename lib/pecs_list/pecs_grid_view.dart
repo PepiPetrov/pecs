@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:pecs/pecs_list/remove_card.dart';
 
-class PecsGridView extends StatelessWidget {
+class PecsGridView extends StatefulWidget {
   final List<Map<String, dynamic>> displayedPecs;
   final List<Map<String, dynamic>> selectedPecs;
+  final List<Map<String, dynamic>> allPecs;
   final double imageWidth;
   final Function(int index) onTap;
 
-  const PecsGridView({
-    Key? key,
-    required this.displayedPecs,
-    required this.selectedPecs,
-    required this.imageWidth,
-    required this.onTap,
-  }) : super(key: key);
+  const PecsGridView(
+      {Key? key,
+      required this.displayedPecs,
+      required this.selectedPecs,
+      required this.imageWidth,
+      required this.onTap,
+      required this.allPecs})
+      : super(key: key);
 
+  @override
+  State createState() => _PecsGridViewState();
+}
+
+class _PecsGridViewState extends State<PecsGridView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView.builder(
-        itemCount: displayedPecs.length,
+        itemCount: widget.displayedPecs.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 8.0,
@@ -27,26 +35,29 @@ class PecsGridView extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return GestureDetector(
+            onLongPress: () {
+              _showImageOptionsDialog(context, index);
+            },
             onTap: () {
-              onTap(index);
+              widget.onTap(index);
             },
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: selectedPecs.contains(displayedPecs[index])
-                      ? Colors.blue
-                      : Colors.grey,
+                  color:
+                      widget.selectedPecs.contains(widget.displayedPecs[index])
+                          ? Colors.blue
+                          : Colors.grey,
                   width: 2.0,
                 ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    child: Image.network(
-                      displayedPecs[index]['url']!,
-                      width: imageWidth,
-                    ),
+                  Image.network(
+                    widget.displayedPecs[index]['url']!,
+                    width: widget.imageWidth,
+                    height: widget.imageWidth - 4,
                   ),
                 ],
               ),
@@ -55,5 +66,16 @@ class PecsGridView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _showImageOptionsDialog(BuildContext context, int index) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return RemoveCard(
+            image: widget.displayedPecs[index],
+            images: widget.allPecs,
+          );
+        });
   }
 }

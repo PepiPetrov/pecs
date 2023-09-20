@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
-import '../env.dart';
+import 'package:pecs/env.dart';
 
 class TextToSpeechWidget extends StatefulWidget {
   final String text;
@@ -53,9 +53,21 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
       'Ocp-Apim-Subscription-Key': msTtsKey,
       'X-Microsoft-OutputFormat': 'audio-48khz-192kbitrate-mono-mp3',
     };
+    // final ssmlWords = widget.words.map((e) => '''
+    //               <prosody rate="-26%">
+    //               $e
+    //               </prosody>
+    //               <break time="50ms"/>
+    // ''').join("");
+    final ssmlWords = widget.text.split(" ").map((e) => '''
+                  $e
+                  <break time="10ms"/>
+    ''').join("");
     final ssml =
         '''<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="bg-BG">
-                  <voice name="bg-BG-KalinaNeural">${widget.text}</voice>
+                   <voice name="bg-BG-KalinaNeural">
+                  $ssmlWords
+                  </voice>
                   </speak>''';
     final response = await post(endpoint, headers: headers, body: ssml);
 
@@ -128,7 +140,7 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
                 },
               );
             } else if (snapshot.hasError) {
-              return const Text("An error occured");
+              return const Text("Нещо се обърка");
             } else {
               return const Center(
                 child: SizedBox(

@@ -28,7 +28,7 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Selected Images'),
+        title: const Text('Избрани Изображения'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -66,7 +66,7 @@ class _SelectedImagesWindowState extends State<SelectedImagesWindow> {
                     widget.clearSelectedPecs();
                     Navigator.pop(context);
                   },
-                  child: const Text('Clear selected PECS'),
+                  child: const Text('Назад'),
                 )
               ]),
             ),

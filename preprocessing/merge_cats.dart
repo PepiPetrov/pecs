@@ -3,14 +3,19 @@ import 'dart:io';
 
 void main() {
   // Read the JSON file into a string
-  final jsonString = File('assets/images.json').readAsStringSync();
+  final jsonString = File("../assets/images.json").readAsStringSync();
 
   // Parse the JSON string into a list of maps
   final List<dynamic> cards = jsonDecode(jsonString);
 
   // Define the category mappings
   var categoryMappings = {
-    "Common": [
+    "Азбука": [
+      "alphabet",
+      "letter",
+      "language",
+    ],
+    "Общи": [
       "adverb of place",
       "adverb of manner",
       "adverb of degree",
@@ -22,9 +27,6 @@ void main() {
       "possessive adjective",
       "adjective",
       "comparative adjective",
-      "language",
-      "alphabet",
-      "letter",
       "concessive conjunction",
       "copulative conjunction",
       "causal conjunction",
@@ -33,8 +35,6 @@ void main() {
       "personal pronoun",
       "indefinite pronoun",
       "interrogative pronoun",
-      "verb",
-      "usual verbs",
       "size",
       "energy",
       "preposition",
@@ -42,11 +42,15 @@ void main() {
       "color",
       "number",
       "container",
-      "shape",
       "basic concepts",
       "miscellaneous"
     ],
-    "Food and Drinks": [
+    "Форми": ["shape"],
+    "Глаголи": [
+      "verb",
+      "usual verbs",
+    ],
+    "Храни и напитки": [
       "beverage",
       "condiment",
       "gastronomy",
@@ -78,7 +82,7 @@ void main() {
       "feeding",
       "dairy product",
     ],
-    "Buildings and Infrastructure": [
+    "Сгради и инфраструктура": [
       "infrastructure",
       "sports facility",
       "building facility",
@@ -95,7 +99,7 @@ void main() {
       "construction",
       "monument"
     ],
-    "People, Communication and Society": [
+    "Хора, общуване и общество": [
       "group",
       "elderly",
       "teenager",
@@ -121,14 +125,14 @@ void main() {
       "body position",
       "leader"
     ],
-    "Transport": [
+    "Транспорт": [
       "land transport",
       "aerial transport",
       "water transport",
       "mode of transport",
       "transport services"
     ],
-    "Home and Interior Design": [
+    "Дом и интериорен дизайн": [
       "utensil",
       "trousseau",
       "furniture",
@@ -142,7 +146,7 @@ void main() {
       "carpentry",
       "room"
     ],
-    "Fashion and Accessories": [
+    "Мода и аксесоари": [
       "clothes",
       "jewelry",
       "footwear",
@@ -152,14 +156,8 @@ void main() {
       "physical features",
       "cosmetic"
     ],
-    "Feelings and Sensations": [
-      "taste",
-      "body sensation",
-      "senses",
-      "texture",
-      "feeling"
-    ],
-    "Animals": [
+    "Усещания": ["taste", "body sensation", "senses", "texture", "feeling"],
+    "Животни": [
       "arachnid",
       "omnivorous",
       "carnivorous",
@@ -196,7 +194,7 @@ void main() {
       "mollusc",
       "fossil origin material"
     ],
-    "Plants": [
+    "Растения": [
       "tree",
       "flower",
       "bush",
@@ -212,7 +210,7 @@ void main() {
       "cereal",
       "vegetal origin material"
     ],
-    "Technology": [
+    "Технологии": [
       "mass media device",
       "hardware",
       "computing",
@@ -227,7 +225,7 @@ void main() {
       "protective equipment",
       "light fixture"
     ],
-    "Science": [
+    "Наука": [
       "geology",
       "meteorology",
       "biology",
@@ -248,35 +246,37 @@ void main() {
       "planet",
       "natural disaster",
     ],
-    "Entertainment and Events": [
+    "Събития": [
+      "olympic games",
+      "popular event",
+      "event",
+      "sport event",
+      "social event",
+      "recreational facility",
+      "entertainment facility",
+      "carnival",
+      "gambling",
+      "popular festival",
+      "wedding",
+      "show",
+      "opera",
+      "hobby",
+      "tv show",
+    ],
+    "Свободно време": [
+      "chess",
+      "bullfighting",
+      "photography",
+      "cinema",
+      "leisure",
       "toy",
       "board game",
       "card game",
       "traditional game",
       "video game",
       "game",
-      "olympic games",
-      "popular event",
-      "event",
-      "sport event",
-      "social event",
-      "chess",
-      "bullfighting",
-      "photography",
-      "recreational facility",
-      "entertainment facility",
-      "carnival",
-      "gambling",
-      "popular festival",
-      "cinema",
-      "wedding",
-      "show",
-      "opera",
-      "hobby",
-      "tv show",
-      "leisure"
     ],
-    "Holidays": [
+    "Празници": [
       "easter week",
       "birthday",
       "christmas",
@@ -284,7 +284,7 @@ void main() {
       "new year",
       "fiestas del pilar"
     ],
-    "Medicine and Health": [
+    "Медицина": [
       "physiotherapy",
       "human anatomy",
       "symptom",
@@ -345,7 +345,7 @@ void main() {
       "basic needs",
       "orthopedic product"
     ],
-    "Sports": [
+    "Спорт": [
       "diving",
       "karate",
       "swimming",
@@ -366,7 +366,7 @@ void main() {
       "athlete",
       "sport modality"
     ],
-    "Education": [
+    "Образование": [
       "educational building",
       "educational methodology",
       "subject",
@@ -384,7 +384,7 @@ void main() {
       "aac implementation",
       "teaching activity"
     ],
-    "History": [
+    "История": [
       "late modern period",
       "early modern period",
       "periods",
@@ -395,7 +395,7 @@ void main() {
       "iberians",
       "historical character"
     ],
-    "Law": [
+    "Закони": [
       "law and justice",
       "crime",
       "sexual crime",
@@ -409,7 +409,7 @@ void main() {
       "document",
       "official document"
     ],
-    "Time and Seasons": [
+    "Време": [
       "day hours",
       "day",
       "day time",
@@ -423,7 +423,7 @@ void main() {
       "spring",
       "season"
     ],
-    "Religion": [
+    "Религия": [
       "religion",
       "religious character",
       "religious act",
@@ -439,7 +439,7 @@ void main() {
       "buddhism",
       "christianity"
     ],
-    "Music": [
+    "Музика": [
       "percussion instrument",
       "wind instrument",
       "string instrument",
@@ -449,13 +449,13 @@ void main() {
       "musical artist",
       "musical notation"
     ],
-    "Industries": [
+    "Индустрии": [
       "industry",
       "hospitality industry",
       "clothing industry",
       "mining industry"
     ],
-    "Geography and Countries": [
+    "География": [
       "egypt",
       "country",
       "physical geography",
@@ -478,7 +478,7 @@ void main() {
       "flag",
       "continent"
     ],
-    "Politics and Economics": [
+    "Политика и икономика": [
       "trade",
       "money",
       "foreign currency",
@@ -491,7 +491,7 @@ void main() {
       "public administration",
       "international organziation"
     ],
-    "Books and Characters": [
+    "Книги и герои": [
       "book character",
       "character",
       "tale character",
@@ -507,7 +507,7 @@ void main() {
       "comic character",
       "universal decimal classification"
     ],
-    "Work and Professions": [
+    "Работа": [
       "hairdresser",
       "seller",
       "personal services",
@@ -529,7 +529,7 @@ void main() {
       "childcare",
       "cattle farming"
     ],
-    "Outside": [
+    "Навън": [
       "street furniture",
       "traffic signal",
       "road safety",
@@ -548,7 +548,7 @@ void main() {
       "playground",
       "visual art"
     ],
-    "No category": [
+    "Без категория": [
       "architectural element",
       "recycling",
       "painting",
@@ -575,7 +575,6 @@ void main() {
   // Modify the category of each card based on the category mappings
   for (final card in cards) {
     card.remove("id");
-    card['subcategory'] = card['category'];
     for (final category in categoryMappings.keys) {
       if (categoryMappings[category]!.contains(card['category'])) {
         card['category'] = category;
@@ -585,12 +584,11 @@ void main() {
   }
 
   categoryMappings = {
-    "Nature": ["Animals", "Plants"],
-    "World": ["Politics and Economics", "Law", "Industries"]
+    "Природа": ["Животни", "Растения"],
+    "Обществен живот": ["Политика и икономика", "Закони", "Индустрии"]
   };
   // Modify the category of each card based on the category mappings
   for (final card in cards) {
-    card['subcategory'] = card['category'];
     for (final category in categoryMappings.keys) {
       if (categoryMappings[category]!.contains(card['category'])) {
         card['category'] = category;
@@ -600,7 +598,7 @@ void main() {
   }
 
   // Write the modified cards to a JSON file
-  final File file = File('assets/grouped.json');
+  final File file = File('../assets/grouped.json');
   file.writeAsStringSync(json.encode(cards));
   print(Set.from(cards.map((e) => e["category"])).length);
 }
