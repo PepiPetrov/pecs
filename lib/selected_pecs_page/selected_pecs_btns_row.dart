@@ -20,7 +20,7 @@ class SelectedPecsRow extends StatelessWidget {
         builder: (BuildContext context) {
           return ElevatedButton(
             onPressed: selectedPecs.isNotEmpty ? showSelectedImages : null,
-            child: const Text('Show'),
+            child: const Text('Виж и чуй избраните изображения'),
           );
         },
       ),
@@ -29,7 +29,7 @@ class SelectedPecsRow extends StatelessWidget {
       ),
       ElevatedButton(
         onPressed: selectedPecs.isNotEmpty ? clearSelectedPecs : null,
-        child: const Text('Clear'),
+        child: const Text('Изчисти избраните изображения'),
       )
     ]));
   }

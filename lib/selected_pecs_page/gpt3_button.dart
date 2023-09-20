@@ -24,22 +24,13 @@ class GPT3SpeechSector extends StatelessWidget {
       future: _getResult(),
       builder: (context, snapshot) {
         if (snapshot.error != null) {
-          return const Text("Error occurred!");
+          return const Text("Появи се грешка");
         } else if (snapshot.hasData) {
           return Column(
             children: [
-              // Wrap(
-              //   alignment: WrapAlignment.center,
-              //   children: [
-              //     const Text('Result: '),
-              //     Text(
-              //       snapshot.data!,
-              //       style: const TextStyle(fontFamily: 'Roboto'),
-              //       textAlign: TextAlign.center,
-              //     ),
-              //   ],
-              // ),
-              TextToSpeechWidget(text: snapshot.data!),
+              TextToSpeechWidget(
+                text: snapshot.data!,
+              ),
             ],
           );
         } else {

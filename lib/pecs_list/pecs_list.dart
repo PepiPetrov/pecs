@@ -17,12 +17,13 @@ class PecsSelector extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PecsSelector> createState() => PecsSelectorState();
+  State createState() => PecsSelectorState();
 }
 
 class PecsSelectorState extends State<PecsSelector> {
   List<Map<String, dynamic>> selectedPecs = [];
   String? selectedCategory;
+  List<Map<String, dynamic>> pecsImages = [];
 
   List<String> get categories {
     // Get a list of unique categories from the pecsImages list
@@ -75,7 +76,10 @@ class PecsSelectorState extends State<PecsSelector> {
         selectedCategory == null
             ? CategoryList(
                 categories: categories,
-                onCategorySelectionChanged: _onCategorySelectionChanged)
+                onCategorySelectionChanged: _onCategorySelectionChanged,
+                images: widget.pecsImages,
+                imageWidth: imageWidth,
+              )
             : Wrap(
                 spacing: 8.0,
                 children: [
@@ -93,7 +97,7 @@ class PecsSelectorState extends State<PecsSelector> {
                 onPressed: () {
                   _onCategorySelectionChanged(null);
                 },
-                child: const Text('Back'),
+                child: const Text('Към списъка с категории'),
               ),
             ],
           ),
@@ -102,6 +106,7 @@ class PecsSelectorState extends State<PecsSelector> {
             displayedPecs: displayedPecs,
             selectedPecs: selectedPecs,
             imageWidth: imageWidth,
+            allPecs: widget.pecsImages,
             onTap: _toggleSelected,
           ),
       ],
